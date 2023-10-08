@@ -1,0 +1,135 @@
+table {
+    margin-top: 20px;
+}
+
+img {
+    width: 250px;
+    margin: 10px;
+}
+
+p {
+    margin-bottom: .5rem;
+}
+
+em {
+    font-weight: 700;
+    padding: 1px;
+}
+
+pre {
+    font-family: "Liberation Mono", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+code {
+    border-radius: 5px;
+}
+
+a {
+    color: #576b95;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+}
+
+#home {
+    margin-top: -5.75rem;
+}
+
+.nav-link:hover {
+    color: #888;
+}
+
+.nav {
+    width: 100%;
+}
+
+.content-li li {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.nav-link {
+    color: #222;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: #07c160;
+}
+
+.title {
+    font-weight: 600;
+}
+
+.success {
+    padding: 1.25rem;
+    color: #146c43;
+    border-left: 4px solid #198754;
+    background-color: #d1e7dd;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-radius: 3px;
+}
+
+.docs-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    padding: .7rem 1.5rem;
+    background-color: hsla(0, 0%, 97%, .98);
+    height: 3.75rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.main {
+    margin-top: 3.75rem;
+    display: block;
+    width: 100%;
+}
+
+.docs-aside {
+    max-height: none;
+    overflow: auto;
+    width: 351px;
+    float: left;
+    background-color: #fdfdfd;
+    border-right: 1px solid #e9eaeb;
+    font-size: 110%;
+    height: 100%;
+    position: fixed;
+    padding: 40px 30px;
+    padding-bottom: 100px;
+}
+
+.docs-main {
+    border-left: 1px solid #e9eaeb;
+    margin-left: 350px;
+    padding: 40px 60px 40px 50px;
+}
+
+.func-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: .5em;
+}
+
+.content-title {
+    padding-top: 3.75rem;
+    margin-top: -3.75rem;
+}
+
+.mysql-list {
+    font-family: "Courier New",Courier,fixed,monospace;
+    
+}
+
+.mysql-title {
+    text-decoration: underline;
+    text-underline-position: under;
+}

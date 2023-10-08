@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据库函数</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/docco.min.css">
+    <script src="./js/highlight.min.js"></script>
+</head>
+
+<script>
+    hljs.highlightAll();
+</script>
+
+<body data-bs-spy="scroll" data-bs-target=".navbar">
+    <header class="docs-header">
+        <h4 style="line-height: 36px;">数据库函数汇总(MySQL和Oracle)</h4>
+    </header>
+    <main class="main">
+        <div class="docs-aside">
+            <nav class="navbar">
+                <nav class="nav nav-pills flex-column">
+                    <a class="nav-link title" href="#home">简要说明</a>
+                    <a class="nav-link title" href="#oracle">Oracle函数</a>
+                    <a class="nav-link ms-3 my-1" href="#oracle-number">数值函数</a>
+                    <a class="nav-link ms-3 my-1" href="#oracle-char">字符函数</a>
+                    <a class="nav-link ms-3 my-1" href="#oracle-datatime">时间函数</a>
+                    <a class="nav-link ms-3 my-1" href="#oracle-convert">转换函数</a>
+                    <a class="nav-link ms-3 my-1" href="#oracle-null-related">NULL相关函数</a>
+                    <a class="nav-link ms-3 my-1" href="#oracle-aggregate">聚合函数</a>
+                    <a class="nav-link title" href="#mysql">MySQL函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-compare">比较函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-flow">流程控制函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-math">数学函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-date-time">日期时间函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-convert">转换函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-aggregate">聚合函数</a>
+                    <a class="nav-link ms-3 my-1" href="#mysql-other">其它函数</a>
+                    <a class="nav-link title" href="#mysql-oracle-diff">两者函数差异</a>
+                </nav>
+            </nav>
+        </div>
+        <div class="docs-main">
+            <div id="home" class="content-title">
+                <blockquote class="success">
+                    <p>占位符占位符占位符占位符占位符</p>
+                    <p>占位符占位符占位符占位符占位符</p>
+                    <p>占位符占位符占位符占位符占位符</p>
+                </blockquote>
+            </div>
+            <div id="oracle" class="content-title" style="margin-top: -.5rem;">
+                <h4><small>表格中包含了Oracle21版本以前的常用函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-number-ABS">ABS()</a></td>
+                            <td>数值函数</td>
+                            <td>返回其绝对值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-CEIL">CEIL()</a></td>
+                            <td>数值函数</td>
+                            <td>返回大于等于n的最小整数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-FLOOR">FLOOR()</a></td>
+                            <td>数值函数</td>
+                            <td>返回返回等于或小于n的最大整数。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-ROUND">ROUND(<i>number</i>)</a></td>
+                            <td>数值函数</td>
+                            <td>返回n四舍五入后的值（注：传入参数为number类型）</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-TRUNC">TRUNC(<i>number</i>)</a></td>
+                            <td>数值函数</td>
+                            <td>返回n截断后的值（注：传入参数为number类型）</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-CONCAT">CONCAT()</a></td>
+                            <td>字符函数</td>
+                            <td>拼接字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-INITCAP">INITCAP()</a></td>
+                            <td>字符函数</td>
+                            <td>返回每个单词首字母大写</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-LOWER">LOWER()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符 所有字母小写</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-REPLACE">REPLACE()</a></td>
+                            <td>字符函数</td>
+                            <td>替换字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-SUBSTR">SUBSTR()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符串的一部分</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-TRIM">TRIM()</a></td>
+                            <td>字符函数</td>
+                            <td>删除字符串前后的空格</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-UPPER">UPPER()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符串 所有字母大写</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-LENGTH">LENGTH()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符串长度</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-ADD_MONTHS">ADD_MONTHS()</a></td>
+                            <td>时间函数</td>
+                            <td>增加指定月份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-CURRENT_DATE">CURRENT_DATE()</a></td>
+                            <td>时间函数</td>
+                            <td>返回会话当前时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-LAST_DAY">LAST_DAY()</a></td>
+                            <td>时间函数</td>
+                            <td>返回当月最后一天</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-MONTHS_BETWEEN">MONTHS_BETWEEN()</a></td>
+                            <td>时间函数</td>
+                            <td>返回日期相差月份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-ROUND">ROUND(date)</a></td>
+                            <td>时间函数</td>
+                            <td>对日期按指定格式四舍五入</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-SYSDATE">SYSDATE()</a></td>
+                            <td>时间函数</td>
+                            <td>返回服务器当前时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-TO_CHAR">TO_CHAR(datetime)</a></td>
+                            <td>时间函数</td>
+                            <td>对日期按指定格式转换为字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-TRUNC">TRUNC(date)</a></td>
+                            <td>时间函数</td>
+                            <td>对日期按指定格式截断</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-convert-CAST">CAST()</a></td>
+                            <td>转换函数</td>
+                            <td>一个数据类型转换为另一个数据类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-convert-TO_DATE">TO_DATE()</a></td>
+                            <td>转换函数</td>
+                            <td>char转换为DATE数据类</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-convert-TO_NUMBER">TO_NUMBER()</a></td>
+                            <td>转换函数</td>
+                            <td>转换为NUMBER数据类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-COALESCE">COALESCE()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>返回表达式列表中的第一个非空参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-LNNVL">LNNVL()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>条件为FALSE或UNKNOWN则返回TRUE, 条件为TRUE则返回FALSE</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-NULLIF">NULLIF()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>参数熄灯则函数返回null, 不等返回expr1。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-NVL">NVL()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>如果expr1为空返回expr2; 如果expr1不为空返回expr1。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-NVL2">NVL2()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>NVL加强版, 接收三个参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-ANY_VALUE">ANY_VALUE()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回expr的一个不确定值, 常用作聚合函数。</td>
+                            <td>19c</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-AVG">AVG()</a></td>
+                            <td>聚合函数</td>
+                            <td>AVG返回expr的平均值。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-COUNT">COUNT()</a></td>
+                            <td>聚合函数</td>
+                            <td>COUNT返回查询返回的行数。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-MAX">MAX()</a></td>
+                            <td>聚合函数</td>
+                            <td>MAX返回expr的最大值。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-MIN">MIN()</a></td>
+                            <td>聚合函数</td>
+                            <td>MAX返回expr的最小值。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-RANK">RANK()</a></td>
+                            <td>聚合函数</td>
+                            <td>RANK计算一个值在一组值中的排名。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-SUM">SUM()</a></td>
+                            <td>聚合函数</td>
+                            <td>SUM返回expr值的和。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="oracle-number" class="content-title" style="margin-top: -.5rem;">
+                <h4><small>表格中包含了Oracle常用的数值函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-number-ABS">ABS()</a></td>
+                            <td>数值函数</td>
+                            <td>返回其绝对值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-CEIL">CEIL()</a></td>
+                            <td>数值函数</td>
+                            <td>返回大于等于n的最小整数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-FLOOR">FLOOR()</a></td>
+                            <td>数值函数</td>
+                            <td>返回返回等于或小于n的最大整数。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-ROUND">ROUND(<i>number</i>)</a></td>
+                            <td>数值函数</td>
+                            <td>返回n四舍五入后的值（注：传入参数为number类型）</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-number-TRUNC">TRUNC(<i>number</i>)</a></td>
+                            <td>数值函数</td>
+                            <td>返回n截断后的值（注：传入参数为number类型）</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-title" style="margin-top: -.5rem;" id="oracle-number-ABS">
+                    <h3 class="content-title">ABS</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/abs.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>ABS返回n的绝对值。</p>
+                    <p>此函数接受可隐式转换为数字数据类型的任何数字数据类型或任何非数字数据类型作为参数。该函数返回与参数的数字数据类型相同的数据类型。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子返回-15的绝对值:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT ABS(-15) AS "Absolute"
+FROM DUAL;
+
+    Absolute
+------------
+          15
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-number-CEIL">
+                    <h3>CEIL</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/ceil.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>CEIL返回大于等于n的最小整数。</p>
+                    <p>当且仅当n恰好是整数时，CEIL的值就是n本身。</p>
+                    <p>此函数接受可隐式转换为数字数据类型的任何数字数据类型或任何非数字数据类型作为参数。该函数返回与参数的数字数据类型相同的数据类型。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>以下示例返回大于或等于指定订单的订单总数的最小整数</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT order_total, CEIL(order_total)
+FROM orders
+WHERE order_id = 2434;
+
+ORDER_TOTAL CEIL(ORDER_TOTAL)
+----------- -----------------
+    268651.8            268652
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-number-FLOOR">
+                    <h3>FLOOR</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/floor.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>FLOOR返回等于或小于n的最大整数。</p>
+                    <p>当且仅当n恰好是整数时，FLOOR的值就是n本身。</p>
+                    <p>此函数接受可隐式转换为数字数据类型的任何数字数据类型或任何非数字数据类型作为参数。该函数返回与参数的数字数据类型相同的数据类型。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子返回等于或小于15.7的最大整数:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT FLOOR(15.7) AS "Floor"
+FROM DUAL;
+
+     Floor
+----------
+        15
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-number-ROUND">
+                    <h3>ROUND(number)</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/round_number.gif" alt="" srcset="" style="width: 30%;">
+                    <h4 class="func-title">作用</h4>
+                    <p>ROUND返回小数点右边四舍五入到integer的n。</p>
+                    <p>如果省略integer，则函数返回ROUND(n, 0)的值，即n会四舍五入到0位保留整数。</p>
+                    <p>n可以是任何数值数据类型，也可以是任何可以隐式转换为数值的非数值数据类型。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子将一个数字四舍五入到小数点后一位:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT ROUND(15.193,1) AS "Round" FROM DUAL;
+
+     Round
+----------
+      15.2                           
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-number-TRUNC">
+                    <h3>TRUNC(number)</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/trunc_number.gif" alt="" srcset="" style="width: 30%;">
+                    <h4 class="func-title">作用</h4>
+                    <p>TRUNC函数返回截断为n2位的n1。</p>
+                    <p>如果n2被省略，那么n1被截断为0位保留整数。</p>
+                    <p>该函数接受任何数值数据类型或任何可以隐式转换为数值数据类型的非数值数据类型作为参数。如果省略n2，函数返回的数据类型与参数的数值类型相同。如果包含n2，则函数返回NUMBER。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子对数字进行截断:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT TRUNC(15.79,1) AS "Truncate" FROM DUAL;
+
+  Truncate
+----------
+      15.7
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <div id="oracle-char" class="content-title">
+                <h4><small>表格中包含了Oracle常用的字符函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-char-CONCAT">CONCAT()</a></td>
+                            <td>字符函数</td>
+                            <td>拼接字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-INITCAP">INITCAP()</a></td>
+                            <td>字符函数</td>
+                            <td>返回每个单词首字母大写</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-LOWER">LOWER()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符 所有字母小写</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-REPLACE">REPLACE()</a></td>
+                            <td>字符函数</td>
+                            <td>替换字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-SUBSTR">SUBSTR()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符串的一部分</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-TRIM">TRIM()</a></td>
+                            <td>字符函数</td>
+                            <td>删除字符串前后的空格</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-UPPER">UPPER()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符串 所有字母大写</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-char-LENGTH">LENGTH()</a></td>
+                            <td>字符函数</td>
+                            <td>返回字符串长度</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-title" style="margin-top: -.5rem;" id="oracle-char-CONCAT">
+                    <h3>CONCAT</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/concat.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>CONCAT返回与char2连接的char1。</p>
+                    <p>换句话说就是将char1和char2拼接起来。</p>
+                    <p>这个函数等价于连接操作符(||)。</p>
+                    <div class="alert alert-warning">
+                        <strong>警告！</strong> 与MySQL的concat()函数不同，该函数只能接收两个参数，如果要拼接多个参数，则需要嵌套使用concat()函数。
+                    </div>
+                    <p>比如拼接char1 char2 char3</p>
+                    <div class="alert alert-success">
+                        <strong>推荐！</strong> CONCAT(CONCAT(char1, char2), char3) CONCAT(char1, CONCAT(char2, char3))
+                    </div>
+                    <p>当拼接的字符串大于3时，可以用||拼接。</p>
+                    <p>比如拼接char1 char2 char3 char4。</p>
+                    <div class="alert alert-success">
+                        <strong>推荐！</strong> char1 || char2 || char3 || char4
+                    </div>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子使用嵌套来连接三个字符串:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT CONCAT(CONCAT(last_name, '''s job category is '), job_id) AS "Job" 
+FROM employees 
+WHERE employee_id = 152;
+
+Job
+------------------------------------------------------
+Hall's job category is SA_REP
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-INITCAP">
+                    <h3>INITCAP</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/initcap.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>INITCAP返回char，其中每个单词的第一个字母为大写，其他所有字母为小写。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例将字符串中的每个单词大写:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT INITCAP('the soap') AS "Capitals"
+FROM DUAL; 
+
+Capitals
+---------
+The Soap
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-LOWER">
+                    <h3>LOWER</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/lower.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>LOWER返回char，所有字母都是小写。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子返回一个小写字符串:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT LOWER('MR. SCOTT MCMILLAN') AS "Lowercase"
+FROM DUAL;
+
+Lowercase
+--------------------
+mr. scott mcmillan
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-REPLACE">
+                    <h3>REPLACE</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/replace.gif" alt="" srcset="" style="width: 600px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>REPLACE返回char，每次出现search_string都用replacement_string替换。</p>
+                    <p>如果replacement_string省略或为空，则删除所有出现的search_string。</p>
+                    <p>如果search_string为空，则返回char。</p>
+                    <div class="alert alert-warning">
+                        <strong>警告！</strong> 区别于TRANSLATE，TRANSLATE提供单字符、一对一的替换。REPLACE允许您将一个字符串替换为另一个字符串以及删除字符串。
+                    </div>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例将出现的J替换为BL:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT REPLACE('JACK and JUE','J','BL') AS "Changes"
+FROM DUAL;
+
+Changes
+--------------
+BLACK and BLUE
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-SUBSTR">
+                    <h3>SUBSTR</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/substr.gif" alt="" srcset="" style="width: 600px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>SUBSTR函数返回char的一部分，从position开始，substring_length长。</p>
+                    <p>类似于java的subString()方法，区别在于该函数是从1开始，不是从0开始</p>
+                    <ul>
+                        <li>如果position为0，则将其视为1。</li>
+                        <li>如果position为正数，则Oracle数据库从char开头开始计数以查找第一个字符。</li>
+                        <li>如果position为负，则Oracle从char的末尾开始向后计数。</li>
+                        <li>如果省略substring_length，则Oracle直接返回到字符末尾。如果substring_length小于1，那么Oracle返回null。</li>
+                    </ul>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子返回"ABCDEFG"的几个指定子字符串:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT SUBSTR('ABCDEFG',3,4) AS "Substring"
+FROM DUAL;
+
+Substring
+---------
+CDEF
+
+SELECT SUBSTR('ABCDEFG',-5,4) AS "Substring"
+FROM DUAL;
+
+Substring
+---------
+CDEF                           
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-TRIM">
+                    <h3>TRIM</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/trim.gif" alt="" srcset="" style="width: 600px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>TRIM使您能够从字符串中修剪前导或尾随字符(或两者)。</p>
+                    <ul class="content-li">
+                        <li>如果指定了LEADING，那么Oracle数据库将删除所有等于trim_character的前导字符。</li>
+                        <li>如果指定了TRAILING，那么Oracle将删除所有等于trim_character的尾随字符。</li>
+                        <li>如果您指定了BOTH或none，那么Oracle将删除等于trim_character的前后字符。</li>
+                        <li>如果不指定trim_character，则默认值是一个空格。</li>
+                        <li>如果您只指定trim_source，那么Oracle将删除前导和尾随的空格。</li>
+                        <li>如果trim_source或trim_character为空，则TRIM函数返回空。</li>
+                    </ul>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子将hr数据库中雇员的雇佣日期前导的0去掉:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT employee_id AS EMPLOYEE_ID,
+TO_CHAR(TRIM(LEADING 0 FROM hire_date)) AS DATE
+FROM employees
+WHERE department_id = 60
+ORDER BY employee_id;
+
+EMPLOYEE_ID      DATE
+----------- ---------
+    103     20-MAY-08
+    104     21-MAY-07
+    105     25-JUN-05
+    106      5-FEB-06
+    107      7-FEB-07
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-UPPER">
+                    <h3>UPPER</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/upper.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>UPPER返回字符，所有字母都是大写。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子以大写形式返回每个员工的姓氏:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT UPPER(last_name) AS "Uppercase"
+FROM employees;
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-char-LENGTH">
+                    <h3>LENGTH</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/length.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>LENGTH函数返回字符的长度。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子使用了LENGTH函数:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT LENGTH('CANDIDE') AS "Length in characters"
+FROM DUAL;
+
+Length in characters
+--------------------
+                   7                              
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <div id="oracle-datatime" class="content-title">
+                <h4><small>表格中包含了Oracle常用的时间函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-datatime-ADD_MONTHS">ADD_MONTHS()</a></td>
+                            <td>时间函数</td>
+                            <td>增加指定月份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-CURRENT_DATE">CURRENT_DATE()</a></td>
+                            <td>时间函数</td>
+                            <td>返回会话当前时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-LAST_DAY">LAST_DAY()</a></td>
+                            <td>时间函数</td>
+                            <td>返回当月最后一天</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-MONTHS_BETWEEN">MONTHS_BETWEEN()</a></td>
+                            <td>时间函数</td>
+                            <td>返回日期相差月份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-ROUND">ROUND(date)</a></td>
+                            <td>时间函数</td>
+                            <td>对日期按指定格式四舍五入</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-SYSDATE">SYSDATE()</a></td>
+                            <td>时间函数</td>
+                            <td>返回服务器当前时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-TO_CHAR">TO_CHAR(datetime)</a></td>
+                            <td>时间函数</td>
+                            <td>对日期按指定格式转换为字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-datatime-TRUNC">TRUNC(date)</a></td>
+                            <td>时间函数</td>
+                            <td>对日期按指定格式截断</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-title" style="margin-top: -.5rem;" id="oracle-datatime-ADD_MONTHS">
+                    <h3>ADD_MONTHS</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/add_months.gif" alt="" srcset="" style="width: 360px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>ADD_MONTHS返回日期加上整数月份。</p>
+                    <p>date参数可以是datetime值，也可以是任何可以隐式转换为date的值。参数integer可以是整数，也可以是任何可以隐式转换为整数的值。</p>
+                    <p>无论DATE的数据类型是什么，返回类型始终是DATE。</p>
+                    <p>如果date是该月的最后一天，或者结果月份的天数少于date的day成分，则结果为结果月份的最后一天。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子返回样例表employees中hire_date之后的月份:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT TO_CHAR(ADD_MONTHS(hire_date, 1), 'DD-MON-YYYY') AS "Next month"
+FROM employees 
+WHERE last_name = 'Baer';
+
+ Next Month
+-----------
+07-JUL-2002
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-CURRENT_DATE">
+                    <h3>CURRENT_DATE</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/current_date.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>CURRENT_DATE返回会话时区的当前日期，数据类型为date的公历值。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子说明CURRENT_DATE对会话时区敏感:</p>
+                    <pre>
+                            <code class="language-sql">
+ALTER SESSION SET TIME_ZONE = '-5:0';
+ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-YYYY HH24:MI:SS';
+SELECT SESSIONTIMEZONE, CURRENT_DATE FROM DUAL;
+
+SESSIONTIMEZONE CURRENT_DATE
+--------------- --------------------
+-05:00          29-MAY-2000 13:14:03
+
+ALTER SESSION SET TIME_ZONE = '-8:0';
+SELECT SESSIONTIMEZONE, CURRENT_DATE FROM DUAL;
+
+SESSIONTIMEZONE CURRENT_DATE
+--------------- --------------------
+-08:00          29-MAY-2000 10:14:33
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-LAST_DAY">
+                    <h3>LAST_DAY</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/last_day.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>LAST_DAY返回包含date的月份的最后一天的日期。</p>
+                    <p>无论DATE的数据类型是什么，返回类型始终是DATE。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的语句确定了当月还剩多少天。</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT SYSDATE,
+LAST_DAY(SYSDATE) AS "Last",
+LAST_DAY(SYSDATE) - SYSDATE AS "Days Left"
+FROM DUAL;
+
+SYSDATE   Last       Days Left
+--------- --------- ----------
+30-MAY-09 31-MAY-09          1                         
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-MONTHS_BETWEEN">
+                    <h3>MONTHS_BETWEEN</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/months_between.gif" alt="" srcset="" style="width: 30%;">
+                    <h4 class="func-title">作用</h4>
+                    <p>MONTHS_BETWEEN返回日期date1和date2之间的月份数。</p>
+                    <p>如果date1晚于date2，则结果为正数;如果date1早于date2，则结果为负数。</p>
+                    <p>如果date1和date2要么是当月的同一天，要么都是月末的最后几天，则结果总是整数。</p>
+                    <p>否则，Oracle数据库将根据31天的月计算结果的小数部分。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子计算两个日期之间的月份:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT MONTHS_BETWEEN
+    (TO_DATE('02-02-1995','MM-DD-YYYY'),
+     TO_DATE('01-01-1995','MM-DD-YYYY') ) AS "Months"
+FROM DUAL;
+
+    Months
+----------
+1.03225806                         
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-ROUND">
+                    <h3>ROUND (date)</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/round_date.gif" alt="" srcset="" style="width: 30%;">
+                    <h4 class="func-title">作用</h4>
+                    <p>ROUND返回日期四舍五入为格式模型fmt指定的单位。</p>
+                    <p>即使为DATE指定了不同的datetime数据类型，返回的值也始终是DATE类型。</p>
+                    <p>如果省略fmt，则date会四舍五入到最近的日期。</p>
+                    <div class="alert alert-success">
+                        <strong>推荐！</strong> Oracle日期模型有很多，项目中只选其中一种，年：YYYY；月：MM；日：DD；时：HH24；分：MI；秒：SS
+                    </div>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子将日期舍入为下一年的第一天:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT ROUND (TO_DATE ('27-OCT-00'),'YYYY') AS "New Year" 
+FROM DUAL;
+
+ New Year
+---------
+01-JAN-01
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-SYSDATE">
+                    <h3>SYSDATE</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/sysdate.gif" alt="" srcset="" style="width: 12%;">
+                    <h4 class="func-title">作用</h4>
+                    <p>SYSDATE返回数据库服务器所在操作系统的当前日期和时间，该函数不需要参数。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子返回当前操作系统的日期和时间:</p>
+                    <pre>
+                            <code class="language-sql">
+    SELECT TO_CHAR
+        (SYSDATE, 'MM-DD-YYYY HH24:MI:SS') AS "NOW"
+    FROM DUAL;
+    
+    NOW
+    -------------------
+    04-13-2001 09:45:51                        
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-TO_CHAR">
+                    <h3>TO_CHAR (datetime)</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/to_char_date.gif" alt="" srcset="" style="width: 500px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>TO_CHAR (datetime)将日期的datetime或interval值转换为日期格式fmt指定的VARCHAR2数据类型的值。</p>
+                    <p>如果省略fmt, date将被转换为VARCHAR2值，日期值会被转换为默认的日期格式。</p>
+                    <p>fmt格式如下表所示：</p>
+                    <table class="table table-bordered table-sm" style="width: 50%;">
+                        <tbody>
+                            <tr>
+                                <th>type</th>
+                                <th>fmt</th>
+                                <th>desc</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>DAY</td>
+                                <td>DD</td>
+                                <td>Day of month (1-31).</td>
+                            </tr>
+                            <tr>
+                                <td>DAY</td>
+                                <td>DD</td>
+                                <td>Day of year (1-366).</td>
+                            </tr>
+                            <tr>
+                                <td>HOUR</td>
+                                <td>HH<br>HH12</td>
+                                <td>Hour of day (1-12).</td>
+                            </tr>
+                            <tr>
+                                <td>HOUR</td>
+                                <td>HH24</td>
+                                <td>Hour of day (0-23).</td>
+                            </tr>
+                            <tr>
+                                <td>MINUTE</td>
+                                <td>MI</td>
+                                <td>Minute (0-59).</td>
+                            </tr>
+                            <tr>
+                                <td>MONTH</td>
+                                <td>MM</td>
+                                <td>Month (01-12; January = 01).</td>
+                            </tr>
+                            <tr>
+                                <td>SECOND</td>
+                                <td>SS</td>
+                                <td>Second (0-59).</td>
+                            </tr>
+                            <tr>
+                                <td>YEAR</td>
+                                <td>YYYY</td>
+                                <td>4-digit year.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的语句确定了当月还剩多少天。</p>
+                    <pre>
+                            <code class="language-sql">
+    SELECT TO_CHAR
+        (SYSDATE, 'MM-DD-YYYY HH24:MI:SS') AS "NOW"
+    FROM DUAL;
+    
+    NOW
+    -------------------
+    04-13-2001 09:45:51                       
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-datatime-TRUNC">
+                    <h3>TRUNC (date)</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/trunc_date.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>TRUNC (date)函数返回日期，将一天中的时间部分截断为格式模型fmt指定的单位。</p>
+                    <p>即使为DATE指定了不同的datetime数据类型，返回的值也始终是DATE类型。</p>
+                    <p>如果省略fmt，则使用默认的格式模型'DD'，返回的值是日期截断为当天的午夜时间。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的语句确定了当月还剩多少天。</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT TRUNC(TO_DATE('27-OCT-92','DD-MON-YY'), 'YEAR')
+"New Year" FROM DUAL;
+
+    New Year
+---------
+01-JAN-92                      
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <div id="oracle-convert" class="content-title">
+                <h4><small>表格中包含了Oracle常用的转换函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-convert-CAST">CAST()</a></td>
+                            <td>转换函数</td>
+                            <td>一个数据类型转换为另一个数据类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-convert-TO_DATE">TO_DATE()</a></td>
+                            <td>转换函数</td>
+                            <td>char转换为DATE数据类</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-convert-TO_NUMBER">TO_NUMBER()</a></td>
+                            <td>转换函数</td>
+                            <td>转换为NUMBER数据类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-title" id="oracle-convert-CAST">
+                    <h3>CAST</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/cast.gif" alt="" srcset="" style="width: 460px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>CAST允许将一种类型的内置数据类型或集合类型的值转换为另一种内置数据类型。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子将TEXT转换为VARCHAR2:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT product_id, CAST(ad_sourcetext AS VARCHAR2(30)) AS text
+FROM print_media
+ORDER BY product_id;                      
+                        </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-convert-TO_DATE">
+                    <h3>TO_DATE</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/to_date.gif" alt="" srcset="" style="width: 480px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>TO_DATE将char转换为DATE数据类型的值。</p>
+                    <p>fmt是指定char格式的日期时间模型格式。如果省略fmt，则char必须采用默认日期格式。</p>
+                    <div class="alert alert-success">
+                        <strong>推荐！</strong> 使用TO_DATE最好总是指定格式掩码(fmt)。
+                    </div>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例将字符串转换为日期:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT TO_DATE(
+    'January 15, 1989, 11:00 A.M.',
+    'Month dd, YYYY, HH:MI A.M.') AS date
+        FROM DUAL;
+
+     date
+---------
+15-JAN-89                                               
+                        </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-convert-TO_NUMBER">
+                    <h3>TO_NUMBER</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/to_number.gif" alt="" srcset="" style="width: 480px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>TO_NUMBER将expr转换为NUMBER数据类型的值。</p>
+                    <p>如果expr为NUMBER，则该函数返回expr。如果expr的计算结果为null，则该函数返回null。否则，该函数将expr转换为NUMBER值。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>以下示例将字符串数据转换为数字:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT TO_NUMBER('2.00') "Value"
+FROM DUAL;
+
+    Value
+---------
+     2.00                                               
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <div id="oracle-null-related" class="content-title">
+                <h4><small>表格中包含了Oracle常用的与NULL相关函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-null-related-COALESCE">COALESCE()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>返回表达式列表中的第一个非空参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-LNNVL">LNNVL()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>条件为FALSE或UNKNOWN则返回TRUE, 条件为TRUE则返回FALSE</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-NULLIF">NULLIF()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>参数熄灯则函数返回null, 不等返回expr1。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-NVL">NVL()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>如果expr1为空返回expr2; 如果expr1不为空返回expr1。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-null-related-NVL2">NVL2()</a></td>
+                            <td>NULL相关函数</td>
+                            <td>NVL加强版, 接收三个参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-title" id="oracle-null-related-COALESCE">
+                    <h3>COALESCE</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/coalesce.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>COALESCE返回表达式列表中的第一个非空expr。必须指定至少两个表达式。</p>
+                    <p>如果所有出现的expr的值都为null，则该函数返回null。</p>
+                    <code>COALESCE(expr1, expr2)
+                    </code>等价于<code>CASE WHEN expr1 IS NOT NULL THEN expr1 ELSE expr2 END
+                    </code>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例使用示例oe。Product_information表组织清仓销售的产品。凡是标价的商品都有九折优惠。如果没有标价，那么销售价就是最低价。如果没有最低价格，那么销售价格为“5”:
+                    </p>
+                    <pre>
+                        <code class="language-sql">
+SELECT product_id, list_price, min_price,
+COALESCE(0.9*list_price, min_price, 5) AS "Sale"
+FROM product_information
+WHERE supplier_id = 102050
+ORDER BY product_id;
+
+PRODUCT_ID LIST_PRICE  MIN_PRICE       Sale
+---------- ---------- ---------- ----------
+      1769         48                  43.2
+      1770                    73         73
+      2378        305        247      274.5
+      2382        850        731        765
+      3355                                5            
+                        </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-null-related-LNNVL">
+                    <h3>LNNVL</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/lnnvl.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>它接受一个条件作为参数，如果条件为FALSE或UNKNOWN则返回TRUE，如果条件为TRUE则返回FALSE。</p>
+                    <p>该函数可以在查询的WHERE子句中使用，也可以在搜索的CASE表达式中用作WHEN条件。</p>
+                    <p>Oracle数据库有时在内部使用LNNVL函数，以这种方式将NOT in条件重写为NOT EXISTS条件。</p>
+                    <p>下表显示了在a = 2且b为空的情况下LNNVL返回的结果。</p>
+                    <table class="table table-bordered" style="width: 50%;">
+                        <tbody>
+                            <tr>
+                                <th>条件</th>
+                                <th>条件真假</th>
+                                <th>LNNVL返回值</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>a = 1</td>
+                                <td>FALSE</td>
+                                <td>TRUE</td>
+                            </tr>
+                            <tr>
+                                <td>a = 2</td>
+                                <td>TRUE</td>
+                                <td>FALSE</td>
+                            </tr>
+                            <tr>
+                                <td>a IS NULL</td>
+                                <td>FALSE</td>
+                                <td>TRUE</td>
+                            </tr>
+                            <tr>
+                                <td>b = 1</td>
+                                <td>UNKNOWN</td>
+                                <td>TRUE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="func-title">示例</h4>
+                    <p>假设您想知道佣金率低于20%的员工的数量，包括不收取佣金的员工。下面的查询只返回实际收取佣金低于20%的员工:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT COUNT(*)
+FROM employees
+WHERE commission_pct < .2;
+
+  COUNT(*)
+----------
+        11                         
+                        </code>
+                    </pre>
+                    <p>要包括72名没有获得任何佣金的员工，您可以使用LNNVL函数重写查询，如下所示:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT COUNT(*)
+FROM employees
+WHERE LNNVL(commission_pct >= .2);
+
+  COUNT(*)
+----------
+        83                        
+                        </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-null-related-NULLIF">
+                    <h3>NULLIF</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/nullif.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>NULLIF比较expr1和expr2。如果它们相等，则函数返回null。如果它们不相等，则函数返回expr1。</p>
+                    <p>NULLIF函数在逻辑上等同于下面的CASE表达式:</p>
+                    <code>CASE WHEN expr1 = expr2 THEN NULL ELSE expr1 END</code>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例从示例数据库hr中选择那些自被雇用以来换过工作的员工，job_history表中的job_id与employees表中的当前job_id不同:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT e.last_name, NULLIF(j.job_id, e.job_id) AS "Old Job ID"
+FROM employees e, job_history j
+WHERE e.employee_id = j.employee_id
+ORDER BY last_name, "Old Job ID";
+
+LAST_NAME                 Old Job ID
+------------------------- ----------
+De Haan                   IT_PROG
+Hartstein                 MK_REP
+Kaufling                  ST_CLERK
+Kochhar                   AC_ACCOUNT
+Kochhar                   AC_MGR
+Raphaely                  ST_CLERK
+Taylor                    SA_MAN
+Taylor
+Whalen                    AC_ACCOUNT
+Whalen
+                        </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-null-related-NVL">
+                    <h3>NVL</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/nvl.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>NVL允许您将查询结果中的null(作为空白返回)替换为字符串。如果expr1为空，则NVL返回expr2。如果expr1不为空，则NVL返回expr1。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例返回一个雇员姓名和佣金列表，如果雇员没有收到佣金，则替换为"Not Applicable":</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT last_name, NVL(TO_CHAR(commission_pct), 'Not Applicable') commission
+FROM employees
+WHERE last_name LIKE 'B%'
+ORDER BY last_name;
+
+LAST_NAME                 COMMISSION
+------------------------- ----------------------------------------
+Baer                      Not Applicable
+Baida                     Not Applicable
+Banda                     .1
+Bates                     .15
+Bell                      Not Applicable
+Bernstein                 .25
+Bissot                    Not Applicable
+Bloom                     .2
+Bull                      Not Applicable                     
+                        </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-null-related-NVL2">
+                    <h3>NVL2</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/nvl2.gif" alt="" srcset="" style="width: 400px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>下面的示例显示了一些雇员的收入是由工资加佣金组成，还是仅仅是工资，这取决于雇员的commission_pct列是否为空。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的例子将TEXT转换为VARCHAR2:</p>
+                    <pre>
+                        <code class="language-sql">
+SELECT last_name, salary,
+NVL2(commission_pct, salary + (salary * commission_pct), salary) income
+FROM employees
+WHERE last_name like 'B%'
+ORDER BY last_name;
+
+LAST_NAME                     SALARY     INCOME
+------------------------- ---------- ----------
+Baer                           10000      10000
+Baida                           2900       2900
+Banda                           6200       6820
+Bates                           7300       8395
+Bell                            4000       4000
+Bernstein                       9500      11875
+Bissot                          3300       3300
+Bloom                          10000      12000
+Bull                            4100       4100                   
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <div id="oracle-aggregate" class="content-title">
+                <h4><small>表格中包含了Oracle常用的聚合函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#oracle-aggregate-ANY_VALUE">ANY_VALUE()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回expr的一个不确定值, 常用作聚合函数。</td>
+                            <td>19c</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-AVG">AVG()</a></td>
+                            <td>聚合函数</td>
+                            <td>AVG返回expr的平均值。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-COUNT">COUNT()</a></td>
+                            <td>聚合函数</td>
+                            <td>COUNT返回查询返回的行数。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-MAX">MAX()</a></td>
+                            <td>聚合函数</td>
+                            <td>MAX返回expr的最大值。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-MIN">MIN()</a></td>
+                            <td>聚合函数</td>
+                            <td>MAX返回expr的最小值。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-RANK">RANK()</a></td>
+                            <td>聚合函数</td>
+                            <td>RANK计算一个值在一组值中的排名。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#oracle-aggregate-SUM">SUM()</a></td>
+                            <td>聚合函数</td>
+                            <td>SUM返回expr值的和。</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-title" id="oracle-aggregate-ANY_VALUE">
+                    <h3>ANY_VALUE</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/any_value.gif" alt="" srcset="" style="width: 360px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>ANY_VALUE返回expr的一个不确定值。你可以将它用作聚合函数。</p>
+                    <p>它确保不会对任何传入行进行比较，并且消除了将每个列指定为GROUP BY子句的一部分的必要性。</p>
+                    <p>因为它不比较值，所以ANY_VALUE返回值的速度比GROUP BY查询中的MIN或MAX更快。</p>
+                    <div class="alert alert-danger">
+                        <strong>危险！</strong>该函数是19c版本新增的聚合函数，生产环境版本部分低于19c，故禁止在Oracle中使用该函数！
+                    </div>
+                    <div class="alert alert-success">
+                        <strong>推荐！</strong>在Oracle中，请用MIN()或MAX()函数代替；MySQL中不受限制。
+                    </div>
+                    <h4 class="func-title">示例</h4>
+                    <p>本例在SH数据库的GROUP BY查询中使用ANY_VALUE作为聚合函数:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT c.cust_id, ANY_VALUE(cust_last_name), SUM(amount_sold)
+FROM customers c, sales s
+WHERE s.cust_id = c.cust_id
+GROUP BY c.cust_id;   
+
+CUST_ID  ANY_VALUE(CUST_LAST_NAME) SUM(AMOUNT_SOLD)
+------- -------------------------- ----------------
+   6950 Sandburg                                 78
+  17920 Oliver                                 3201
+  66800 Case                                   2024
+  37280 Edwards                                2256
+ 109850 Lindegreen                              757
+   3910 Oddell                                  185
+  84700 Marker                                164.4
+  26380 Remler                                  118
+  11600 Oppy                                    158
+  23030 Rothrock                                533
+  42780 Zanis                                   182
+...
+630 rows selected.
+                            </code>
+                    </pre>
+                </div>
+                <div class="content-title" id="oracle-aggregate-AVG">
+                    <h3>AVG</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/avg.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>AVG返回expr的平均值。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例计算hr数据库中所有员工的平均工资:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT AVG(salary) AS "Average"
+FROM employees;
+
+       Average
+--------------
+    6461.83178                             
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-aggregate-COUNT">
+                    <h3>COUNT</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/count.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>COUNT返回查询返回的行数。</p>
+                    <p>如果指定expr，则COUNT返回expr不为空的行数。</p>
+                    <p>如果指定星号(*)，则此函数返回所有行，包括重复行和空行。COUNT永远不会返回null。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>以下示例使用COUNT作为聚合函数:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT COUNT(*) AS "Total"
+FROM employees;
+
+     Total
+----------
+       107
+
+SELECT COUNT(*) AS "Allstars"
+FROM employees
+WHERE commission_pct > 0;
+
+ Allstars
+---------
+       35
+
+SELECT COUNT(commission_pct) AS "Count"
+FROM employees;
+
+     Count
+----------
+        35
+
+SELECT COUNT(DISTINCT manager_id) AS "Managers"
+FROM employees;
+
+  Managers
+----------
+        18                             
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-aggregate-MAX">
+                    <h3>MAX</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/max.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>MAX返回expr的最大值。你可以将它用作聚合函数或分析函数。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例确定hr中的最高工资:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT MAX(salary) "Maximum"
+FROM employees;
+
+   Maximum
+----------
+     24000                            
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-aggregate-MIN">
+                    <h3>MIN</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/min.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>MIN返回expr的最小值。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的语句返回hr中最早的雇佣日期:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT MIN(hire_date) "Earliest"
+FROM employees;
+
+ Earliest
+---------
+13-JAN-01                              
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-aggregate-RANK">
+                    <h3>RANK</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/rank_aggregate.gif" alt="" srcset="">
+                    <h4 class="func-title">作用</h4>
+                    <p>RANK计算一个值在一组值中的排名。返回类型是NUMBER。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例计算示例表hr中假设员工的级别。年薪为15,500美元，佣金为5%的员工:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT RANK(15500, .05) WITHIN GROUP
+(ORDER BY salary, commission_pct) "Rank"
+FROM employees;
+
+      Rank
+----------
+       105                                                          
+                            </code>
+                        </pre>
+                </div>
+                <div class="content-title" id="oracle-aggregate-SUM">
+                    <h3>SUM</h3>
+                    <h4 class="func-title">语法</h4>
+                    <img src="./img/sum.gif" alt="" srcset="" style="width: 300px;">
+                    <h4 class="func-title">作用</h4>
+                    <p>SUM返回expr值的和。你可以将它用作聚合函数或分析函数。</p>
+                    <h4 class="func-title">示例</h4>
+                    <p>下面的示例计算示例hr中所有工资的总和:</p>
+                    <pre>
+                            <code class="language-sql">
+SELECT SUM(salary) AS "Total"
+FROM employees;
+
+     Total
+----------
+    691400                          
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <div id="mysql" class="content-title" style="margin-top: -.5rem;">
+                <h4><small>表格中包含了MySQL8.0版本以前的常用函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-compare-COALESCE">COALESCE()</a></td>
+                            <td>比较函数</td>
+                            <td>返回第一个非空参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-GREATEST">GREATEST()</a></td>
+                            <td>比较函数</td>
+                            <td>返回最大的参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-INTERVAL">INTERVAL()</a></td>
+                            <td>比较函数</td>
+                            <td>返回小于第一个参数的参数索引</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-ISNULL">ISNULL()</a></td>
+                            <td>比较函数</td>
+                            <td>测试实参是否为NULL</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-LEAST">LEAST()</a></td>
+                            <td>比较函数</td>
+                            <td>返回最小的参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-STRCMP">STRCMP()</a></td>
+                            <td>比较函数</td>
+                            <td>比较两个字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-CASE">CASE</a></td>
+                            <td>流程控制函数</td>
+                            <td>case操作符</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-IF">IF()</a></td>
+                            <td>流程控制函数</td>
+                            <td>if/else构造</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-IFNULL">IFNULL()</a></td>
+                            <td>流程控制函数</td>
+                            <td>Null if/else构造</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-NULLIF">NULLIF()</a></td>
+                            <td>流程控制函数</td>
+                            <td>返回NULL 如果 expr1 = expr2</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-CEIL">CEIL(), CEILING()</a></td>
+                            <td>数学函数</td>
+                            <td>返回不小于参数的最小整数值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-FLOOR">FLOOR()</a></td>
+                            <td>数学函数</td>
+                            <td>返回不大于参数的最大整数值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-ROUND">ROUND()</a></td>
+                            <td>数学函数</td>
+                            <td>对参数进行四舍五入</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-SIGN">SIGN()</a></td>
+                            <td>数学函数</td>
+                            <td>返回参数的符号</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-TRUNCATE">TRUNCATE()</a></td>
+                            <td>数学函数</td>
+                            <td>截断到指定的小数位数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-ADDDATE">ADDDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>将时间值(间隔)添加到日期值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE_ADD">DATE_ADD()</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于ADDDATE()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-ADDTIME">ADDTIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>增加时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURDATE">CURDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回当前日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURRENT_DATE">CURRENT_DATE(), CURRENT_DATE</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于CURDATE()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURTIME">CURTIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回当前时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURRENT_TIME">CURRENT_TIME(), CURRENT_TIME</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于CURTIME()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE">DATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>提取date或datetime表达式的日期部分</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE_FORMAT">DATE_FORMAT()</a></td>
+                            <td>日期时间函数</td>
+                            <td>格式化指定日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE_SUB">DATE_SUB()</a></td>
+                            <td>日期时间函数</td>
+                            <td>从日期中减去时间值(间隔)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SUBDATE">SUBDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>三个参数时等价于DATE_SUB()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATEDIFF">DATEDIFF()</a></td>
+                            <td>日期时间函数</td>
+                            <td>两个日期相减</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DAYOFMONTH">DAYOFMONTH()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回月份中的天数(0 ~ 31)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DAY">DAY()</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于DAYOFMONTH()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DAYOFYEAR">DAYOFYEAR()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回一年中的哪一天(1-366)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-GET_FORMAT">GET_FORMAT()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回一个日期格式字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-HOUR">HOUR()</a></td>
+                            <td>日期时间函数</td>
+                            <td>提取小时</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-LAST_DAY">LAST_DAY()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数月份的最后一天</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-NOW">NOW()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回当前日期和时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-LOCALTIME">LOCALTIME(), LOCALTIME</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于NOW()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MAKEDATE">MAKEDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>从年份和年份中创建一个日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MAKETIME">MAKETIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>从小时、分钟、秒创建时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MINUTE">MINUTE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数中的分钟数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MONTH">MONTH()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数的月份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SECOND">SECOND()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数的秒数(0-59)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-STR_TO_DATE">STR_TO_DATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>将字符串转换为日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SUBTIME">SUBTIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>减去第二个参数的日期时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SYSDATE">SYSDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回函数执行的时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-TIME">TIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>提取传递的表达式的时间部分</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-TO_DAYS">TO_DAYS()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回从Year 0到日期参数的天数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-YEAR">YEAR()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回年份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-CAST">CAST()</a></td>
+                            <td>流程控制函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-CONVERT">CONVERT()</a></td>
+                            <td>流程控制函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-AVG">AVG()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回参数的平均值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-COUNT">COUNT()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回结果行数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-COUNT_DISTINCT">COUNT(DISTINCT)</a></td>
+                            <td>聚合函数</td>
+                            <td>返回不同的值的行数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-MAX">MAX()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回最大值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-MIN">MIN()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回最小值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-SUM">SUM()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回和</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-COUNT">COUNT()</a></td>
+                            <td>聚合函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="mysql-compare" class="content-title" style="margin-top: -.5rem;">
+                <h4><small>表格中包含了MySQL常用的比较函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-compare-COALESCE">COALESCE()</a></td>
+                            <td>比较函数</td>
+                            <td>返回第一个非空参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-GREATEST">GREATEST()</a></td>
+                            <td>比较函数</td>
+                            <td>返回最大的参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-INTERVAL">INTERVAL()</a></td>
+                            <td>比较函数</td>
+                            <td>返回小于第一个参数的参数索引</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-ISNULL">ISNULL()</a></td>
+                            <td>比较函数</td>
+                            <td>测试实参是否为NULL</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-LEAST">LEAST()</a></td>
+                            <td>比较函数</td>
+                            <td>返回最小的参数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-compare-STRCMP">STRCMP()</a></td>
+                            <td>比较函数</td>
+                            <td>比较两个字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    比较运算符有：
+                    <code>
+                        =  >  <  >=  <=  <>  !=
+                    </code>
+                </p>
+                <div class="alert alert-success">
+                    <strong>推荐！</strong> 根据SQL规范，不等于操作符建议用<>，而不是!=
+                </div>
+                <div class="alert alert-success">
+                    比较操作的结果为1 (TRUE)、0 (FALSE)或NULL。<br>
+                    这些操作对数字和字符串都有效。字符串会根据需要自动转换为数字，数字会根据需要自动转换为字符串。
+                </div>
+                <ul class="mysql-list">
+                    <li id="mysql-compare-COALESCE" class="content-title">
+                        <p class="mysql-title">COALESCE(<em>value, ...</em>)</p>
+                        <p>返回列表中第一个非空值，如果没有非空值则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT COALESCE(NULL,1);
+    -> 1
+mysql> SELECT COALESCE(NULL,NULL,NULL);
+    -> NULL                                                     
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-compare-GREATEST" class="content-title">
+                        <p class="mysql-title">GREATEST(<em>value1, value2,...</em>)</p>
+                        <p>有两个或多个参数时，返回最大(最大值)参数。参数的比较规则与LEAST()相同。</p>
+                        <p>如果任何参数为NULL，则GREATEST()返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT GREATEST(2,0);
+    -> 2
+mysql> SELECT GREATEST(34.0,3.0,5.0,767.0);
+    -> 767.0
+mysql> SELECT GREATEST('B','A','C');
+    -> 'C'                                                
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-compare-INTERVAL" class="content-title">
+                        <p class="mysql-title">INTERVAL(<em>N, N1, N2, N3, ...</em>)</p>
+                        <p>如果N≤N1返回0，如果N≤N2返回1，以此类推，如果N为NULL返回-1。所有参数都被视为整数。</p>
+                        <p>要求N1≤N2≤N3≤…≤Nn，这个函数才能正常工作。这是因为使用了二分查找(非常快)。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT INTERVAL(23, 1, 15, 17, 30, 44, 200);
+    -> 3
+mysql> SELECT INTERVAL(10, 1, 10, 100, 1000);
+    -> 2
+mysql> SELECT INTERVAL(22, 23, 30, 44, 200);
+    -> 0                                       
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-compare-ISNULL" class="content-title">
+                        <p class="mysql-title">ISNULL(<em>expr</em>)</p>
+                        <p>如果expr为NULL，则ISNULL()返回1，否则返回0。</p>
+                        <p>ISNULL()可以代替=来测试一个值是否为NULL。(使用=将值与NULL进行比较总是产生NULL。)</p>
+                        <p>ISNULL()函数和IS NULL几乎等价</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT ISNULL(1+1);
+    -> 0
+mysql> SELECT ISNULL(1/0);
+    -> 1                                                  
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-compare-LEAST" class="content-title">
+                        <p class="mysql-title">LEAST(<em>value1, value2, ...</em>)</p>
+                        <p>有两个或多个参数时，返回最小(值最小)的参数。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT LEAST(2,0);
+    -> 0
+mysql> SELECT LEAST(34.0,3.0,5.0,767.0);
+    -> 3.0
+mysql> SELECT LEAST('B','A','C');
+    -> 'A'                                                   
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-compare-STRCMP" class="content-title">
+                        <p class="mysql-title">STRCMP(<em>expr1, expr2</em>)</p>
+                        <p>如果字符串相同，STRCMP()返回0;</p>
+                        <p>如果根据当前排序顺序第一个参数小于第二个参数则返回-1;</p>
+                        <p>如果两个参数都为NULL则返回NULL;</p>
+                        <p>否则返回1。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT STRCMP('text', 'text2');
+    -> -1
+mysql> SELECT STRCMP('text2', 'text');
+    -> 1
+mysql> SELECT STRCMP('text', 'text');
+    -> 0                                                  
+                            </code>
+                        </pre>
+                    </li>
+                </ul>
+            </div>
+            <div id="mysql-flow" class="content-title">
+                <h4><small>表格中包含了MySQL常用的流程控制函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-flow-CASE">CASE</a></td>
+                            <td>流程控制函数</td>
+                            <td>case操作符</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-IF">IF()</a></td>
+                            <td>流程控制函数</td>
+                            <td>if/else构造</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-IFNULL">IFNULL()</a></td>
+                            <td>流程控制函数</td>
+                            <td>Null if/else构造</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-NULLIF">NULLIF()</a></td>
+                            <td>流程控制函数</td>
+                            <td>返回NULL 如果 expr1 = expr2</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="mysql-list">
+                    <li id="mysql-flow-CASE" class="content-title">
+                        <p class="mysql-title">
+                            CASE <em>value</em> WHEN <em>compare_value</em> THEN <em>result</em> [WHEN
+                            <em>compare_value</em> THEN <em>result</em> ...] [ELSE <em>result</em>] END
+                            <br>
+                            CASE WHEN <em>condition</em> THEN <em>result</em> [WHEN <em>condition</em> THEN
+                            <em>result</em> ...] [ELSE <em>result</em>] END
+                        </p>
+                        <p>第一个CASE语法返回第一个value=compare_value比较为真的结果。</p>
+                        <p>第二种语法返回第一个条件为真时的结果。如果没有比较或条件为真，则返回ELSE后的结果，如果没有ELSE部分则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT CASE 1 WHEN 1 THEN 'one'
+    ->     WHEN 2 THEN 'two' ELSE 'more' END;
+    -> 'one'
+mysql> SELECT CASE WHEN 1>0 THEN 'true' ELSE 'false' END;
+    -> 'true'
+mysql> SELECT CASE BINARY 'B'
+    ->     WHEN 'a' THEN 1 WHEN 'b' THEN 2 END;
+    -> NULL                           
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-flow-IF" class="content-title">
+                        <p class="mysql-title">IF(<em>expr1, expr2, expr3</em>)</p>
+                        <p>如果expr1为TRUE (expr1 <> 0且expr1不为NULL)， If()返回expr2。否则，它返回expr3。</p>
+                        <p>如果expr2或expr3中只有一个显式为NULL，则If()函数的结果类型是非NULL表达式的类型。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT IF(1>2,2,3);
+    -> 3
+mysql> SELECT IF(1<2,'yes','no');
+    -> 'yes'
+mysql> SELECT IF(STRCMP('test','test1'),'no','yes');
+    -> 'no'                                                
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-flow-IFNULL" class="content-title">
+                        <p class="mysql-title">IFNULL(<em>expr1, expr2</em>)</p>
+                        <p>如果expr1不是NULL, IFNULL()返回expr1;否则它返回expr2。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT IFNULL(1,0);
+    -> 1
+mysql> SELECT IFNULL(NULL,10);
+    -> 10
+mysql> SELECT IFNULL(1/0,10);
+    -> 10
+mysql> SELECT IFNULL(1/0,'yes');
+    -> 'yes'                                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-flow-NULLIF" class="content-title">
+                        <p class="mysql-title">NULLIF(<em>expr1, expr2</em>)</p>
+                        <p>如果expr1 = expr2为真，则返回NULL，否则返回expr1。</p>
+                        <p>这与<span class="mysql-title">CASE WHEN <em>expr1</em> = <em>expr2</em> THEN NULL ELSE
+                                <em>expr1</em> END</span>相同。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT NULLIF(1,1);
+    -> NULL
+mysql> SELECT NULLIF(1,2);
+    -> 1                                                 
+                            </code>
+                        </pre>
+                    </li>
+                </ul>
+            </div>
+            <div id="mysql-math" class="content-title">
+                <h4><small>表格中包含了MySQL常用的数学函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-math-CEIL">CEIL(), CEILING()</a></td>
+                            <td>数学函数</td>
+                            <td>返回不小于参数的最小整数值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-FLOOR">FLOOR()</a></td>
+                            <td>数学函数</td>
+                            <td>返回不大于参数的最大整数值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-ROUND">ROUND()</a></td>
+                            <td>数学函数</td>
+                            <td>对参数进行四舍五入</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-SIGN">SIGN()</a></td>
+                            <td>数学函数</td>
+                            <td>返回参数的符号</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-math-TRUNCATE">TRUNCATE()</a></td>
+                            <td>数学函数</td>
+                            <td>截断到指定的小数位数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="mysql-list">
+                    <li id="mysql-math-CEIL" class="content-title">
+                        <p class="mysql-title">CEIL(<em>X</em>), CEILING(<em>X</em>)</p>
+                        <p>返回不小于X的最小整数值。如果X为NULL则返回NULL。</p>
+                        <p>CEILING()与CEIL()等价</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT CEIL(1.23);
+    -> 2
+mysql> SELECT CEIL(-1.23);
+    -> -1                                              
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-math-FLOOR" class="content-title">
+                        <p class="mysql-title">FLOOR(<em>X</em>)</p>
+                        <p>返回不大于X的最大整数值。如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT FLOOR(1.23), FLOOR(-1.23);
+    -> 1, -2                                          
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-math-FLOOR" class="content-title">
+                        <p class="mysql-title">FLOOR(<em>X</em>)</p>
+                        <p>返回不大于X的最大整数值。如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT FLOOR(1.23), FLOOR(-1.23);
+    -> 1, -2                                          
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-math-ROUND" class="content-title">
+                        <p class="mysql-title">ROUND(<em>X</em>), ROUND(<em>X, D</em>)</p>
+                        <p>将参数X舍入到小数点后D位。舍入算法取决于x的数据类型。</p>
+                        <p>如果未指定，D默认为0。</p>
+                        <p>D可以是负数，使值X小数点左边的D位数字变为零。</p>
+                        <p>D的最大绝对值为30;任何超过30(或-30)的数字都会被截断。</p>
+                        <p>如果X或D为NULL，则函数返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT ROUND(-1.23);
+    -> -1
+mysql> SELECT ROUND(-1.58);
+    -> -2
+mysql> SELECT ROUND(1.58);
+    -> 2
+mysql> SELECT ROUND(1.298, 1);
+    -> 1.3
+mysql> SELECT ROUND(1.298, 0);
+    -> 1
+mysql> SELECT ROUND(23.298, -1);
+    -> 20
+mysql> SELECT ROUND(.12345678901234567890123456789012345, 35);
+    -> 0.123456789012345678901234567890                                   
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-math-SIGN" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT SIGN(-32);
+    -> -1
+mysql> SELECT SIGN(0);
+    -> 0
+mysql> SELECT SIGN(234);
+    -> 1                                         
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-math-TRUNCATE" class="content-title">
+                        <p class="mysql-title">TRUNCATE(<em>X, D</em>)</p>
+                        <p>返回数字X，截断为小数点后D位。</p>
+                        <p>如果D为0，则结果没有小数点或小数部分。</p>
+                        <p>D可以是负数，使值X小数点左边的D位数字变为零。</p>
+                        <p>如果X或D为NULL，则函数返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT TRUNCATE(1.223,1);
+    -> 1.2
+mysql> SELECT TRUNCATE(1.999,1);
+    -> 1.9
+mysql> SELECT TRUNCATE(1.999,0);
+    -> 1
+mysql> SELECT TRUNCATE(-1.999,1);
+    -> -1.9
+mysql> SELECT TRUNCATE(122,-2);
+    -> 100
+mysql> SELECT TRUNCATE(10.28*100,0);
+    -> 1028                                      
+                            </code>
+                        </pre>
+                    </li>
+                </ul>
+            </div>
+            <div id="mysql-date-time" class="content-title">
+                <h4><small>表格中包含了MySQL常用的日期时间函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-date-time-ADDDATE">ADDDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>将时间值(间隔)添加到日期值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE_ADD">DATE_ADD()</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于ADDDATE()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-ADDTIME">ADDTIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>增加时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURDATE">CURDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回当前日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURRENT_DATE">CURRENT_DATE(), CURRENT_DATE</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于CURDATE()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURTIME">CURTIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回当前时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-CURRENT_TIME">CURRENT_TIME(), CURRENT_TIME</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于CURTIME()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE">DATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>提取date或datetime表达式的日期部分</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE_FORMAT">DATE_FORMAT()</a></td>
+                            <td>日期时间函数</td>
+                            <td>格式化指定日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATE_SUB">DATE_SUB()</a></td>
+                            <td>日期时间函数</td>
+                            <td>从日期中减去时间值(间隔)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SUBDATE">SUBDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>三个参数时等价于DATE_SUB()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DATEDIFF">DATEDIFF()</a></td>
+                            <td>日期时间函数</td>
+                            <td>两个日期相减</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DAYOFMONTH">DAYOFMONTH()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回月份中的天数(0 ~ 31)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DAY">DAY()</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于DAYOFMONTH()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-DAYOFYEAR">DAYOFYEAR()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回一年中的哪一天(1-366)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-GET_FORMAT">GET_FORMAT()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回一个日期格式字符串</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-HOUR">HOUR()</a></td>
+                            <td>日期时间函数</td>
+                            <td>提取小时</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-LAST_DAY">LAST_DAY()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数月份的最后一天</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-NOW">NOW()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回当前日期和时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-LOCALTIME">LOCALTIME(), LOCALTIME</a></td>
+                            <td>日期时间函数</td>
+                            <td>等价于NOW()</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MAKEDATE">MAKEDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>从年份和年份中创建一个日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MAKETIME">MAKETIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>从小时、分钟、秒创建时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MINUTE">MINUTE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数中的分钟数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-MONTH">MONTH()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数的月份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SECOND">SECOND()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回参数的秒数(0-59)</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-STR_TO_DATE">STR_TO_DATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>将字符串转换为日期</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SUBTIME">SUBTIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>减去第二个参数的日期时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-SYSDATE">SYSDATE()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回函数执行的时间</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-TIME">TIME()</a></td>
+                            <td>日期时间函数</td>
+                            <td>提取传递的表达式的时间部分</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-TO_DAYS">TO_DAYS()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回从Year 0到日期参数的天数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-date-time-YEAR">YEAR()</a></td>
+                            <td>日期时间函数</td>
+                            <td>返回年份</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="mysql-list">
+                    <li id="mysql-date-time-ADDDATE" class="content-title">
+                        <p class="mysql-title">ADDDATE(<em>date</em>, INTERVAL <em>expr unit</em>), ADDDATE(<em>date, days</em>)</p>
+                        <p>当使用第二个参数的INTERVAL形式调用时，ADDDATE()是DATE_ADD()的同义词。</p>
+                        <p>如果date或days为NULL，则此函数返回NULL。</p>
+                        <p>相关函数SUBDATE()等价于DATE_SUB()。</p>
+                        <p>有关INTERVAL单位参数的信息，请参见下表：</p>
+                        <table class="table table-bordered table-sm" style="width: 50%;">
+                            <tbody>
+                                <tr>
+                                    <th>unit值</th>
+                                    <th>expr格式</th>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>MICROSECOND</td>
+                                    <td>MICROSECONDS</td>
+                                </tr>
+                                <tr>
+                                    <td>SECOND</td>
+                                    <td>SECONDS</td>
+                                </tr>
+                                <tr>
+                                    <td>MINUTE</td>
+                                    <td>MINUTES</td>
+                                </tr>
+                                <tr>
+                                    <td>HOUR</td>
+                                    <td>HOURS</td>
+                                </tr>
+                                <tr>
+                                    <td>DAY</td>
+                                    <td>DAYS</td>
+                                </tr>
+                                <tr>
+                                    <td>WEEK</td>
+                                    <td>WEEKS</td>
+                                </tr>
+                                <tr>
+                                    <td>MONTH</td>
+                                    <td>MONTHS</td>
+                                </tr>
+                                <tr>
+                                    <td>QUARTER</td>
+                                    <td>QUARTERS</td>
+                                </tr>
+                                <tr>
+                                    <td>YEAR</td>
+                                    <td>YEARS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT DATE_ADD('2008-01-02', INTERVAL 31 DAY);
+    -> '2008-02-02'
+mysql> SELECT ADDDATE('2008-01-02', INTERVAL 31 DAY);
+    -> '2008-02-02'                                           
+                            </code>
+                        </pre>
+                        <p>当使用第二个参数的days形式调用时，MySQL将其视为要添加到expr中的天数的整数。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT ADDDATE('2008-01-02', 31);
+    -> '2008-02-02'                                          
+                            </code>
+                        </pre>
+                        <div class="alert alert-success">
+                            <strong>推荐！</strong> 使用ADDDATE()函数而不是DATE_ADD()函数，因为当unit为DAY时可以使用其简便写法ADDDATE(date, days)
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="mysql-convert" class="content-title">
+                <h4><small>表格中包含了MySQL常用的转换函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-flow-CAST">CAST()</a></td>
+                            <td>流程控制函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-flow-CONVERT">CONVERT()</a></td>
+                            <td>流程控制函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="mysql-aggregate" class="content-title">
+                <h4><small>表格中包含了MySQL常用的聚合函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-aggregate-AVG">AVG()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回参数的平均值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-COUNT">COUNT()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回结果行数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-COUNT_DISTINCT">COUNT(DISTINCT)</a></td>
+                            <td>聚合函数</td>
+                            <td>返回不同的值的行数</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-MAX">MAX()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回最大值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-MIN">MIN()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回最小值</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-SUM">SUM()</a></td>
+                            <td>聚合函数</td>
+                            <td>返回和</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-aggregate-COUNT">COUNT()</a></td>
+                            <td>聚合函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="alert alert-warning">
+                    <strong>警告！</strong> 除非另有说明，否则聚合函数都会忽略NULL值。
+                </div>
+            </div>
+            <div id="mysql-other" class="content-title">
+                <h4><small>表格中包含了MySQL常用的其它函数</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-other-CAST">ANY_VALUE()</a></td>
+                            <td>流程控制函数</td>
+                            <td>抑制ONLY_FULL_GROUP_BY值的拒绝</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-other-CONVERT">CONVERT()</a></td>
+                            <td>流程控制函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="mysql-oracle-diff" class="content-title">
+                <h4><small>表格中包含了Oracle和MySQL函数差异</small></h4>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>所属类别</th>
+                            <th>描述</th>
+                            <th>被加入</th>
+                            <th>被丢弃</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#mysql-other-CAST">ANY_VALUE()</a></td>
+                            <td>流程控制函数</td>
+                            <td>抑制ONLY_FULL_GROUP_BY值的拒绝</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#mysql-other-CONVERT">CONVERT()</a></td>
+                            <td>流程控制函数</td>
+                            <td>将值强制转换为特定类型</td>
+                            <td>所有版本</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
