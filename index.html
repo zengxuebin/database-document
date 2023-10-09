@@ -2690,7 +2690,8 @@ mysql> SELECT TRUNCATE(10.28*100,0);
                 </table>
                 <ul class="mysql-list">
                     <li id="mysql-date-time-ADDDATE" class="content-title">
-                        <p class="mysql-title">ADDDATE(<em>date</em>, INTERVAL <em>expr unit</em>), ADDDATE(<em>date, days</em>)</p>
+                        <p class="mysql-title">ADDDATE(<em>date</em>, INTERVAL <em>expr unit</em>), ADDDATE(<em>date,
+                                days</em>)</p>
                         <p>当使用第二个参数的INTERVAL形式调用时，ADDDATE()是DATE_ADD()的同义词。</p>
                         <p>如果date或days为NULL，则此函数返回NULL。</p>
                         <p>相关函数SUBDATE()等价于DATE_SUB()。</p>
@@ -2759,6 +2760,372 @@ mysql> SELECT ADDDATE('2008-01-02', 31);
                         <div class="alert alert-success">
                             <strong>推荐！</strong> 使用ADDDATE()函数而不是DATE_ADD()函数，因为当unit为DAY时可以使用其简便写法ADDDATE(date, days)
                         </div>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">
+                            DATE_ADD(<em>date</em>, INTERVAL <em>expr unit</em>), DATE_SUB(<em>date</em>, INTERVAL
+                            <em>expr unit</em>)
+                        </p>
+                        <p>date参数指定起始日期或datetime值。</p>
+                        <p>Expr是一个表达式，指定要在开始日期上添加或减去的间隔值。</p>
+                        <p>Unit是一个关键字，指示解释表达式的单位。详见上表</p>
+                        <p>返回值取决于参数:</p>
+                        <ul>
+                            <li>如果date为NULL，则函数返回NULL。</li>
+                            <li>如果DATE参数是一个日期值，并且计算只涉及年、月和日部分(即不涉及时间部分)，则为DATE。</li>
+                            <li>(MySQL 8.0.28及以后版本:)如果date参数是一个时间值，并且计算只涉及小时、分钟和秒部分(也就是说，没有日期部分)，则为TIME。</li>
+                            <li>如果第一个参数是DATETIME(或TIMESTAMP)值，或者如果第一个参数是DATE且单位值使用HOURS、MINUTES或SECONDS，或者如果第一个参数是TIME类型且单位值使用YEAR、MONTH或DAY，则为DATETIME。
+                            </li>
+                            <li>(MySQL
+                                8.0.28及以后版本:)如果第一个参数是动态参数(例如，准备好的语句)，如果第二个参数是一个仅包含年、月或日值的组合的间隔，则解析类型为DATE;否则，其类型为DATETIME。
+                            </li>
+                        </ul>
+                        <div class="alert alert-warning">
+                            <strong>警告！</strong> 在MySQL 8.0.22到8.0.27中，当在预处理语句中使用时，这些函数返回DATETIME值，无论参数类型如何。(Bug
+                            #103781)
+                        </div>
+                        <p>为了确保结果是DATETIME，可以使用CAST()将第一个参数转换为DATETIME。</p>
+                        <pre>
+                            <code class="language-sql"> 
+mysql> SELECT DATE_ADD('2018-05-01',INTERVAL 1 DAY);
+    -> '2018-05-02'
+mysql> SELECT DATE_SUB('2018-05-01',INTERVAL 1 YEAR);
+    -> '2017-05-01'
+mysql> SELECT DATE_ADD('2020-12-31 23:59:59',
+    ->                 INTERVAL 1 SECOND);
+     -> '2021-01-01 00:00:00'
+mysql> SELECT DATE_ADD('2018-12-31 23:59:59',
+    ->                 INTERVAL 1 DAY);
+     -> '2019-01-01 23:59:59'
+mysql> SELECT DATE_ADD('2100-12-31 23:59:59',
+    ->                 INTERVAL '1:1' MINUTE_SECOND);
+    -> '2101-01-01 00:01:00'
+mysql> SELECT DATE_SUB('2025-01-01 00:00:00',
+    ->                 INTERVAL '1 1:1:1' DAY_SECOND);
+        -> '2024-12-30 22:58:59'
+mysql> SELECT DATE_ADD('1900-01-01 00:00:00',
+    ->                 INTERVAL '-1 10' DAY_HOUR);
+    -> '1899-12-30 14:00:00'
+mysql> SELECT DATE_SUB('1998-01-02', INTERVAL 31 DAY);
+    -> '1997-12-02'
+mysql> SELECT DATE_ADD('1992-12-31 23:59:59.000002',
+    ->            INTERVAL '1.999999' SECOND_MICROSECOND);
+    -> '1993-01-01 00:00:01.000001'                                   
+                            </code>
+                        </pre>
+                        <p>当向DATE或DATETIME值添加MONTH间隔时，结果日期包含给定月份中不存在的一天，则该日将调整为该月的最后一天，如下所示:</p>
+                        <pre>
+                            <code class="language-sql"> 
+mysql> SELECT DATE_ADD('2024-03-30', INTERVAL 1 MONTH) AS d1, 
+     >        DATE_ADD('2024-03-31', INTERVAL 1 MONTH) AS d2;
++------------+------------+
+| d1         | d2         |
++------------+------------+
+| 2024-04-30 | 2024-04-30 |
++------------+------------+
+1 row in set (0.00 sec)
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-ADDTIME" class="content-title">
+                        <p class="mysql-title">ADDTIME()(<em>expr1</em>, <em>expr2</em>)</p>
+                        <p>ADDTIME()将expr2添加到expr1并返回结果。</p>
+                        <p>从MySQL 8.0.28开始，这个函数和SUBTIME()函数的返回类型确定如下:</p>
+                        <ul>
+                            <li>如果第一个参数是动态参数(例如在预处理语句中)，则返回类型为TIME。</li>
+                            <li>否则，函数的解析类型将从第一个参数的解析类型派生。</li>
+                        </ul>
+                        <pre>
+                            <code class="language-sql"> 
+mysql> SELECT ADDTIME('2007-12-31 23:59:59.999999', '1 1:1:1.000002');
+    -> '2008-01-02 01:01:01.000001'
+mysql> SELECT ADDTIME('01:00:00.999999', '02:00:00.999998');
+    -> '03:00:01.999997'                                   
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-CURDATE" class="content-title">
+                        <p class="mysql-title">CURDATE()</p>
+                        <p>返回当前日期作为'YYYY-MM-DD'或YYYYMMDD格式的值，具体取决于该函数是在字符串上下文中使用还是在数字上下文中使用。</p>
+                        <pre>
+                            <code class="language-sql">  
+mysql> SELECT CURDATE();
+    -> '2008-06-13'
+mysql> SELECT CURDATE() + 0;
+    -> 20080613                                  
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-CURRENT_DATE" class="content-title">
+                        <p class="mysql-title">CURRENT_DATE, CURRENT_DATE()</p>
+                        <p>CURRENT_DATE和CURRENT_DATE()是CURDATE()的同义词。</p>
+                    </li>
+                    <li id="mysql-date-time-CURTIME" class="content-title">
+                        <p class="mysql-title">CURTIME([<em>fsp</em>])</p>
+                        <p>返回当前时间为'hh:mm:ss'或hhmmss格式的值，具体取决于函数是在字符串上下文中使用还是在数字上下文中使用。</p>
+                        <p>取值为会话时区。</p>
+                        <p>如果fsp参数指定从0到6的小数秒精度，则返回值包含该位数的小数秒部分。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT CURTIME();
++-----------+
+| CURTIME() |
++-----------+
+| 19:25:37  |
++-----------+
+
+mysql> SELECT CURTIME() + 0;
++---------------+
+| CURTIME() + 0 |
++---------------+
+|        192537 |
++---------------+
+
+mysql> SELECT CURTIME(3);
++--------------+
+| CURTIME(3)   |
++--------------+
+| 19:25:37.840 |
++--------------+                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-CURRENT_TIME" class="content-title">
+                        <p class="mysql-title">CURRENT_TIME, CURRENT_TIME([<em>ftp</em>)]</p>
+                        <p>CURRENT_TIME和CURRENT_TIME()是CURTIME()的同义词。</p>
+                    </li>
+                    <li id="mysql-date-time-DATE" class="content-title">
+                        <p class="mysql-title">DATE(<em>expr</em>)</p>
+                        <p>提取日期或日期时间表达式expr的日期部分。</p>
+                        <p>如果expr为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">   
+mysql> SELECT DATE('2003-12-31 01:02:03');
+    -> '2003-12-31'                     
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_FORMAT" class="content-title">
+                        <p class="mysql-title">DATE_FORMAT(<em>date, format</em>)</p>
+                        <p>根据格式字符串格式化日期值。</p>
+                        <p>如果其中一个参数为NULL，则函数返回NULL。</p>
+                        <p>下表中显示的说明符可以在格式字符串中使用。%字符必须在格式说明符字符之前。说明符也适用于其他函数:STR_TO_DATE()， TIME_FORMAT()</p>
+                        <table class="table table-bordered table-sm" style="width: 80%;">
+                            <tbody>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Specifier</th>
+                                    <th>Description</th>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>second</td>
+                                    <td>%s or %S</td>
+                                    <td>Seconds (00..59)</td>
+                                </tr>
+                                <tr>
+                                    <td>minute</td>
+                                    <td>%i</td>
+                                    <td>Minutes, numeric (00..59)</td>
+                                </tr>
+
+                                <tr>
+                                    <td rowspan="4">hour</td>
+                                    <td>%H</td>
+                                    <td>Hour (00..23)</td>
+                                </tr>
+                                <tr>
+                                    <td>%h or %I</td>
+                                    <td>Hour (01..12)</td>
+                                </tr>
+                                <tr>
+                                    <td>%k</td>
+                                    <td>Hour (0..23)</td>
+                                </tr>
+                                <tr>
+                                    <td>%l</td>
+                                    <td>Hour (1..12)</td>
+                                </tr>
+
+                                <tr>
+                                    <td rowspan="3">day</td>
+                                    <td>%d</td>
+                                    <td>Day of the month, numeric (00..31)</td>
+                                </tr>
+                                <tr>
+                                    <td>%e</td>
+                                    <td>Day of the month, numeric (0..31)</td>
+                                </tr>
+                                <tr>
+                                    <td>%j</td>
+                                    <td>Day of year (001..366)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>month</td>
+                                    <td>%m</td>
+                                    <td>Month, numeric (00..12)</td>
+                                </tr>
+
+                                <tr>
+                                    <td rowspan="2">year</td>
+                                    <td>%Y</td>
+                                    <td>Year, numeric, four digits</td>
+                                </tr>
+                                <tr>
+                                    <td>%y</td>
+                                    <td>Year, numeric (two digits)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-success">
+                            常用：%Y-%m-%d %H:%i:%s
+                        </div>
+                        <p>月份和日期指定符的范围从0开始，因为MySQL允许存储不完整的日期，比如“2014-00-00”。</p>
+                        <pre>
+                            <code class="language-sql">   
+mysql> SELECT DATE_FORMAT('2009-10-04 22:23:00', '%W %M %Y');
+    -> 'Sunday October 2009'
+mysql> SELECT DATE_FORMAT('2007-10-04 22:23:00', '%H:%i:%s');
+     -> '22:23:00'
+mysql> SELECT DATE_FORMAT('1997-10-04 22:23:00',
+    ->                 '%H %k %I %r %T %S %w');
+    -> '22 22 10 10:23:00 PM 22:23:00 00 6'
+mysql> SELECT DATE_FORMAT('2006-06-00', '%d');
+    -> '00'                                 
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_SUB" class="content-title">
+                        <p class="mysql-title">DATE_SUB(<em>date</em>, INTERVAL <em>expr unit</em>)</p>
+                        <p>请参考<a href="#mysql-date-time-DATE_ADD">DATE_ADD()</a></p>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-DATE_ADD" class="content-title">
+                        <p class="mysql-title">SIGN(<em>X</em>)</p>
+                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
+                        <p>如果X为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">                                    
+                            </code>
+                        </pre>
                     </li>
                 </ul>
             </div>

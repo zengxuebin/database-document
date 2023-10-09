@@ -11,6 +11,10 @@ p {
     margin-bottom: .5rem;
 }
 
+ul li {
+    margin: .5rem;
+}
+
 em {
     font-weight: 700;
     padding: 1px;
