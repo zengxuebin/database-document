@@ -3001,129 +3001,382 @@ mysql> SELECT DATE_FORMAT('2006-06-00', '%d');
                         <p class="mysql-title">DATE_SUB(<em>date</em>, INTERVAL <em>expr unit</em>)</p>
                         <p>请参考<a href="#mysql-date-time-DATE_ADD">DATE_ADD()</a></p>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-SUBDATE" class="content-title">
+                        <p class="mysql-title">SUBDATE(<em>date</em>, INTERVAL <em>expr unit</em>), SUBDATE(<em>expr</em>, <em>days</em>)</p>
+                        <p>当用第二个参数的INTERVAL形式调用时，SUBDATE()是DATE_SUB()的同义词。</p>
+                        <p>有关INTERVAL单位参数的信息，请参见对<a href="#mysql-date-time-DATE_ADD">DATE_ADD()</a>的讨论。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">
+mysql> SELECT DATE_SUB('2008-01-02', INTERVAL 31 DAY);
+     -> '2007-12-02'
+mysql> SELECT SUBDATE('2008-01-02', INTERVAL 31 DAY);
+    -> '2007-12-02'                                    
+                            </code>
+                        </pre>
+                        <p>第二种形式允许使用天数的整数值。在这种情况下，它被解释为从date或datetime表达式expr中减去的天数。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT SUBDATE('2008-01-02 12:00:00', 31);
+    -> '2007-12-02 12:00:00'
+                            </code>
+                        </pre>
+                        <div class="alert alert-success">
+                            <strong>推荐！</strong> 使用SUBDATE()函数而不是DATE_SUB()函数，因为当unit为DAY时可以使用其简便写法SUBDATE(date, days)
+                        </div>
+                    </li>
+                    <li id="mysql-date-time-DATEDIFF" class="content-title">
+                        <p class="mysql-title">DATEDIFF(<em>expr1</em>, <em>expr2</em>)</p>
+                        <p>DATEDIFF()返回expr1 - expr2，表示从一个日期到另一个日期的天数。</p>
+                        <p>expr1和expr2是日期或日期-时间表达式。</p>
+                        <p>只有日期部分的值用于计算。</p>
+                        <p>如果expr1或expr2为NULL，则此函数返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">
+mysql> SELECT DATEDIFF('2007-12-31 23:59:59','2007-12-30');
+    -> 1
+mysql> SELECT DATEDIFF('2010-11-30 23:59:59','2010-12-31');
+    -> -31                                  
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-DAYOFMONTH" class="content-title">
+                        <p class="mysql-title">DAYOFMONTH(<em>date</em>)</p>
+                        <p>返回date的月份的第几天，范围为1到31，或0，例如'0000-00-00'或'2008-00-00'，这些日期有零日部分。</p>
+                        <p>如果date为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">   
+mysql> SELECT DAYOFMONTH('2007-02-03');
+    -> 3                                 
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-DAY" class="content-title">
+                        <p class="mysql-title">DAY(<em>date</em>)</p>
+                        <p>DAY()是DAYOFMONTH()的同义词。</p>
+                    </li>
+                    <li id="mysql-date-time-DAYOFYEAR" class="content-title">
+                        <p class="mysql-title">DAYOFYEAR(<em>date</em>)</p>
+                        <p>返回date的一年中的哪一天，范围是1到366。</p>
+                        <p>如果date为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql"> 
+mysql> SELECT DAYOFYEAR('2007-02-03');
+    -> 34                                   
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-GET_FORMAT" class="content-title">
+                        <p class="mysql-title">GET_FORMAT({DATE|TIME|DATETIME}, {'EUR'|'USA'|'JIS'|'ISO'|'INTERNAL'})</p>
+                        <p>返回格式字符串。该函数与DATE_FORMAT()和STR_TO_DATE()函数结合使用时非常有用。</p>
+                        <p>如果format为NULL，则此函数返回NULL。</p>
+                        <p>第一个和第二个参数的可能值会产生几种可能的格式字符串(有关所使用的说明符，请参阅DATE_FORMAT()函数描述中的表)。</p>
+                        <table class="table table-bordered table-sm" style="width: 80%;">
+                            <tbody>
+                                <tr>
+                                    <th>Function Call</th>
+                                    <th>Result</th>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>GET_FORMAT(DATE,'USA')</td>
+                                    <td>'%m.%d.%Y'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATE,'JIS')</td>
+                                    <td>'%Y-%m-%d'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATE,'ISO')</td>
+                                    <td>'%Y-%m-%d'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATE,'EUR')</td>
+                                    <td>'%d.%m.%Y'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATE,'INTERNAL')</td>
+                                    <td>'%Y%m%d'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATETIME,'USA')</td>
+                                    <td>'%Y-%m-%d %H.%i.%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATETIME,'JIS')</td>
+                                    <td>'%Y-%m-%d %H:%i:%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATETIME,'ISO')</td>
+                                    <td>'%Y-%m-%d %H:%i:%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATETIME,'EUR')</td>
+                                    <td>'%Y-%m-%d %H.%i.%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(DATETIME,'INTERNAL')	</td>
+                                    <td>'%Y%m%d%H%i%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(TIME,'USA')</td>
+                                    <td>'%h:%i:%s %p'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(TIME,'JIS')</td>
+                                    <td>'%H:%i:%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(TIME,'ISO')</td>
+                                    <td>'%H:%i:%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(TIME,'EUR')</td>
+                                    <td>'%H.%i.%s'</td>
+                                </tr>
+                                <tr>
+                                    <td>GET_FORMAT(TIME,'INTERNAL')</td>
+                                    <td>'%H%i%s'</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">
+mysql> SELECT DATE_FORMAT('2003-10-03',GET_FORMAT(DATE,'EUR'));
+    -> '03.10.2003'
+mysql> SELECT STR_TO_DATE('10.31.2003',GET_FORMAT(DATE,'USA'));
+    -> '2003-10-31'                                   
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-HOUR" class="content-title">
+                        <p class="mysql-title">HOUR(<em>time</em>)</p>
+                        <p>返回时间的小时数。对于一天中的时间值，返回值的范围是0到23。</p>
+                        <p>但是，TIME值的范围实际上要大得多，因此HOUR可以返回大于23的值。</p>
+                        <p>如果time为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT HOUR('10:05:03');
+    -> 10
+mysql> SELECT HOUR('272:59:59');
+    -> 272                                  
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-LAST_DAY" class="content-title">
+                        <p class="mysql-title">LAST_DAY(<em>date</em>)</p>
+                        <p>获取日期或日期时间值，并返回该月最后一天的相应值。</p>
+                        <p>如果参数无效或为NULL，则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">
+mysql> SELECT LAST_DAY('2003-02-05');
+    -> '2003-02-28'
+mysql> SELECT LAST_DAY('2004-02-05');
+    -> '2004-02-29'
+mysql> SELECT LAST_DAY('2004-01-01 01:01:01');
+     -> '2004-01-31'
+mysql> SELECT LAST_DAY('2003-03-32');
+    -> NULL                                    
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-NOW" class="content-title">
+                        <p class="mysql-title">NOW([<em>fsp</em>])</p>
+                        <p>返回当前日期和时间的值，格式为'YYYY-MM-DD hh:mm:ss'或YYYYMMDDhhmmss，具体取决于该函数是在字符串环境还是数字环境中使用。</p>
+                        <p>以会话时区表示。</p>
+                        <p>如果fsp参数指定从0到6的小数秒精度，则返回值包含该位数的小数秒部分。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT NOW();
+     -> '2007-12-15 23:50:26'
+mysql> SELECT NOW() + 0;
+    -> 20071215235026.000000                                  
+                            </code>
+                        </pre>
+                        <p>NOW()返回一个常量time，表示语句开始执行的时间。</p>
+                        <p>这与SYSDATE()的行为不同，SYSDATE()返回执行的确切时间。</p>
+                        <pre>
+                            <code class="language-sql">  
+mysql> SELECT NOW(), SLEEP(2), NOW();
++---------------------+----------+---------------------+
+| NOW()               | SLEEP(2) | NOW()               |
++---------------------+----------+---------------------+
+| 2006-04-12 13:47:36 |        0 | 2006-04-12 13:47:36 |
++---------------------+----------+---------------------+
+
+mysql> SELECT SYSDATE(), SLEEP(2), SYSDATE();
++---------------------+----------+---------------------+
+| SYSDATE()           | SLEEP(2) | SYSDATE()           |
++---------------------+----------+---------------------+
+| 2006-04-12 13:47:44 |        0 | 2006-04-12 13:47:46 |
++---------------------+----------+---------------------+                                 
+                            </code>
+                        </pre>
+                        <div class="alert alert-warning">
+                            <strong>警告！</strong> SYSDATE()返回的是执行时的确切时间，NOW()返回的是语句开始执行的时间，注意区别！换句话说，同一个SQL语句SYSDATE()的值可能是不同的。
+                        </div>
+                        <div class="alert alert-success">
+                            <strong>推荐！</strong> 在MYSQL中，推荐使用NOW()来获取当前时间，而不是SYSDATE()
+                        </div>
+                    </li>
+                    <li id="mysql-date-time-LOCALTIME" class="content-title">
+                        <p class="mysql-title">LOCALTIME, LOCALTIME([<em>fsp</em>])</p>
+                        <p>LOCALTIME和LOCALTIME()是NOW()的同义词。</p>
+                    </li>
+                    <li id="mysql-date-time-MAKEDATE" class="content-title">
+                        <p class="mysql-title">MAKEDATE(<em>year, dayofyear</em>)</p>
+                        <p>返回给定年份和年月日值的日期。</p>
+                        <p>dayofyear必须大于0，否则结果为NULL。</p>
+                        <p>如果任何一个参数为NULL，结果也是NULL。</p>
+                        <pre>
+                            <code class="language-sql">     
+mysql> SELECT MAKEDATE(2011,31), MAKEDATE(2011,32);
+    -> '2011-01-31', '2011-02-01'
+mysql> SELECT MAKEDATE(2011,365), MAKEDATE(2014,365);
+     -> '2011-12-31', '2014-12-31'
+mysql> SELECT MAKEDATE(2011,0);
+     -> NULL                               
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-MAKETIME" class="content-title">
+                        <p class="mysql-title">MAKETIME(<em>hour, minute, second</em>)</p>
+                        <p>返回根据小时、分钟和秒参数计算的时间值。</p>
+                        <p>如果它的任何参数为NULL，则返回NULL。</p>
+                        <p>第二个参数可以是小数部分。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT MAKETIME(12,15,30);
+    -> '12:15:30'                                  
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-MINUTE" class="content-title">
+                        <p class="mysql-title">MINUTE(<em>time</em>)</p>
+                        <p>返回time的分钟数，范围为0到59，如果time为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">   
+mysql> SELECT MINUTE('2008-02-03 10:05:03');
+    -> 5                                 
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-MONTH" class="content-title">
+                        <p class="mysql-title">MONTH(<em>date</em>)</p>
+                        <p>返回date的月份，1月到12月的范围为1到12，或者对于具有零月份部分的日期(如'0000-00-00'或'2008-00-00')返回0。</p>
+                        <p>如果date为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT MONTH('2008-02-03');
+    -> 2                                  
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-SECOND" class="content-title">
+                        <p class="mysql-title">SECOND(<em>time</em>)</p>
+                        <p>返回time的秒，范围为0到59，如果time为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT SECOND('10:05:03');
+    -> 3                              
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-STR_TO_DATE" class="content-title">
+                        <p class="mysql-title">STR_TO_DATE(<em>str, format</em>)</p>
+                        <p>这与DATE_FORMAT()函数相反。它接受一个字符串str和一个格式字符串format。</p>
+                        <p>如果格式字符串同时包含日期和时间部分，STR_TO_DATE()返回一个DATETIME值;如果字符串只包含日期或时间部分，则返回一个date或time值。</p>
+                        <p>如果str或format为NULL，则该函数返回NULL。</p>
+                        <p>如果不能根据服务器遵循的规则解析从str中提取的日期、时间或datetime值，则STR_TO_DATE()返回NULL并产生警告。</p>
+                        <p>format中的文字字符必须与str中的字面匹配。format中的格式说明符必须与str中的日期或时间部分匹配。关于format中可以使用的说明符，请参阅DATE_FORMAT()函数描述。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT STR_TO_DATE('01,5,2013','%d,%m,%Y');
+    -> '2013-05-01'
+mysql> SELECT STR_TO_DATE('May 1, 2013','%M %d,%Y');
+    -> '2013-05-01'                              
+                            </code>
+                        </pre>
+                        <p>您还应该知道，对于日期和datetime值的日期部分，STR_TO_DATE()(仅)检查每个月的年、月和日值的有效性。</p>
+                        <p>更准确地说，这意味着检查年份以确保它在0-9999范围内，检查月份以确保它在1-12范围内，检查月份的日期以确保它在1-31范围内，但服务器不检查组合值。</p>
+                        <p>例如，SELECT STR_TO_DATE('23-2-31'， '%Y-%m-%d')返回2023-02-31。</p>
+                    </li>
+                    <li id="mysql-date-time-SUBTIME" class="content-title">
+                        <p class="mysql-title">SUBTIME(<em>expr1, expr2</em>)</p>
+                        <p>SUBTIME()返回与expr1格式相同的值expr1−expr2。</p>
+                        <p>expr1是时间或日期时间表达式，expr2是时间表达式。</p>
+                        <p>此函数的返回类型的解析与ADDTIME()函数一样执行;</p>
+                        <p>如果expr1或expr2为NULL，则此函数返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">  
+mysql> SELECT SUBTIME('2007-12-31 23:59:59.999999','1 1:1:1.000002');
+    -> '2007-12-30 22:58:58.999997'
+mysql> SELECT SUBTIME('01:00:00.999999', '02:00:00.999998');
+    -> '-00:59:59.999999'                              
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-SYSDATE" class="content-title">
+                        <p class="mysql-title">SYSDATE([<em>fsp</em>])</p>
+                        <p>返回当前日期和时间作为'YYYY-MM-DD hh:mm:ss'或YYYYMMDDhhmmss格式的值，具体取决于该函数是在字符串上下文中使用还是在数字上下文中使用。</p>
+                        <p>如果fsp参数指定从0到6的小数秒精度，则返回值包含该位数的小数秒部分。</p>
+                        <p>SYSDATE()返回它执行的时间。这与NOW()的行为不同，NOW()返回一个常量时间，表示语句开始执行的时间。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT NOW(), SLEEP(2), NOW();
++---------------------+----------+---------------------+
+| NOW()               | SLEEP(2) | NOW()               |
++---------------------+----------+---------------------+
+| 2006-04-12 13:47:36 |        0 | 2006-04-12 13:47:36 |
++---------------------+----------+---------------------+
+
+mysql> SELECT SYSDATE(), SLEEP(2), SYSDATE();
++---------------------+----------+---------------------+
+| SYSDATE()           | SLEEP(2) | SYSDATE()           |
++---------------------+----------+---------------------+
+| 2006-04-12 13:47:44 |        0 | 2006-04-12 13:47:46 |
++---------------------+----------+---------------------+                                 
+                            </code>
+                        </pre>
+                        <div class="alert alert-warning">
+                            <strong>警告！</strong> SYSDATE()即使在同一条语句中也可以返回不同的值，而NOW()总是返回语句开始执行的时间。
+                        </div>
+                        <div class="alert alert-success">
+                            <strong>推荐！</strong> 在MYSQL中，推荐使用NOW()来获取当前时间，而不是SYSDATE()
+                        </div>
+                    </li>
+                    <li id="mysql-date-time-TIME" class="content-title">
+                        <p class="mysql-title">TIME(<em>expr</em>)</p>
+                        <p>提取time或datetime表达式expr的时间部分，并将其作为字符串返回。如果expr为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">  
+mysql> SELECT TIME('2003-12-31 01:02:03');
+    -> '01:02:03'
+mysql> SELECT TIME('2003-12-31 01:02:03.000123');
+    -> '01:02:03.000123'                              
                             </code>
                         </pre>
                     </li>
-                    <li id="mysql-date-time-DATE_ADD" class="content-title">
-                        <p class="mysql-title">SIGN(<em>X</em>)</p>
-                        <p>根据X是负、零还是正，返回参数的符号为-1、0或1。</p>
-                        <p>如果X为NULL则返回NULL。</p>
+                    <li id="mysql-date-time-TO_DAYS" class="content-title">
+                        <p class="mysql-title">TO_DAYS(<em>date</em>)</p>
+                        <p>给定日期date，返回日期数(从第0年开始的天数)。如果date为NULL则返回NULL。</p>
                         <pre>
-                            <code class="language-sql">                                    
+                            <code class="language-sql">  
+mysql> SELECT TO_DAYS(950501);
+    -> 728779
+mysql> SELECT TO_DAYS('2007-10-07');
+    -> 733321                               
+                            </code>
+                        </pre>
+                    </li>
+                    <li id="mysql-date-time-YEAR" class="content-title">
+                        <p class="mysql-title">YEAR(<em>date</em>)</p>
+                        <p>返回日期的年份，范围为1000到9999，或者返回“零”日期的0。</p>
+                        <p>如果date为NULL则返回NULL。</p>
+                        <pre>
+                            <code class="language-sql">  
+mysql> SELECT YEAR('1987-01-01');
+    -> 1987                                
                             </code>
                         </pre>
                     </li>
